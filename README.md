@@ -74,3 +74,19 @@ to create a new library with nest, run the following command
 ```bash
 nest generate library <library_name>
 ```
+
+
+### Generate new module for an specific project
+
+run the following command
+```bash
+nest generate module <module_name> -p <library_name>
+```
+
+### Generate new micro-service 
+
+run the following command
+this will generate `apps` folder
+```bash
+nest generate app <project_name>
+```
