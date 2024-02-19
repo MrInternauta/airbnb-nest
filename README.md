@@ -41,6 +41,19 @@ $ npm run test:e2e
 $ npm run test:cov
 ```
 
+## Docker
+To run build, run the following command
+```
+# build
+$ cd apps/reservations
+$ docker build ../../ -f Dockerfile -t sleepr_reservations
+
+# run image
+$ docker run sleepr_reservations
+
+#run services (reservations)
+$ docker-compose up
+```
 
 ## Authors
 
