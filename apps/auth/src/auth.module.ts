@@ -7,11 +7,9 @@ import { UsersController } from './users/users.controller';
 import { UsersService } from './users/users.service';
 import { UsersRepository } from './users/users.repository';
 import { JwtModule } from '@nestjs/jwt';
-import {
-  ConfigService,
-  ConfigModule,
-} from '@nestjs/config';
+import { ConfigService, ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
+import { LocalStrategy } from './strategies/local.strategy';
 
 @Module({
   imports: [
@@ -29,11 +27,10 @@ import * as Joi from 'joi';
       useFactory: (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
         signOptions: {
-          expiresIn: `${configService.get('JWT_EXPIRATION')}s`
-        }
+          expiresIn: `${configService.get('JWT_EXPIRATION')}s`,
+        },
       }),
       inject: [ConfigService],
-
     }),
     LoggerModule,
     DatabaseModule,
@@ -42,6 +39,6 @@ import * as Joi from 'joi';
     ]),
   ],
   controllers: [AuthController, UsersController],
-  providers: [AuthService, UsersService, UsersRepository],
+  providers: [AuthService, UsersService, UsersRepository, LocalStrategy],
 })
 export class AuthModule {}
