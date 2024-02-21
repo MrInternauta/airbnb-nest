@@ -5,7 +5,7 @@ import { Logger } from 'nestjs-pino';
 import {
   ConfigService,
 } from '@nestjs/config';
-
+import * as cookieParser from 'cookie-parser'
 async function bootstrap() {
   const app = await NestFactory.create(AuthModule);
   app.useGlobalPipes(
@@ -13,6 +13,7 @@ async function bootstrap() {
       whitelist: true,
     }),
   );
+  app.use(cookieParser())
   app.useLogger(app.get(Logger));
 
   const configService = app.get(ConfigService);

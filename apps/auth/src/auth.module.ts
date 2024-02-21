@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService, ConfigModule } from '@nestjs/config';
 import * as Joi from 'joi';
 import { LocalStrategy } from './strategies/local.strategy';
+import { JwtStrategy } from './strategies/jwt.strategy';
 
 @Module({
   imports: [
@@ -39,6 +40,6 @@ import { LocalStrategy } from './strategies/local.strategy';
     ]),
   ],
   controllers: [AuthController, UsersController],
-  providers: [AuthService, UsersService, UsersRepository, LocalStrategy],
+  providers: [AuthService, UsersService, UsersRepository, LocalStrategy, JwtStrategy],
 })
 export class AuthModule {}
