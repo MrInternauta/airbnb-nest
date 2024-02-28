@@ -23,6 +23,3 @@ services:
       - .:/usr/src/app
     env_file:
       - ./apps/auth/.env
-  mongo:
-    image: mongo
-    
