@@ -5,11 +5,24 @@ Reservation REST API using Nest.js
 
 ## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
+To run this project, you will need to add the following environment variables to your .env file for each app
 
-- `MONGODB_URI` this is the Mongo URI to connect to the database
+### Auth
+- MONGODB_URI=mongodb+srv://wewewew:ww@cluster0.wewwew.mongodb.net #this is the Mongo URI to connect to the database
+- JWT_SECRET=mysecret12345
+- JWT_EXPIRATION=3600
+- HTTP_PORT=3001
+- TCP_PORT=3002
+### Reservation
+- MONGODB_URI=mongodb+srv://wewewew:ww@cluster0.wewwew.mongodb.net #this is the Mongo URI to connect to the database
+- PORT=3000
+- AUTH_PORT=3002
+- AUTH_HOST=auth
+### Payments
+- PORT=3003
+- STRIPE_SECRET_KEY=sdasdasdasdas
 
-
+Note generate `STRIPE_SECRET_KEY` with [Stripe](https://dashboard.stripe.com/test/dashboard)
 ## Instalation
 ```bash
 npm install
@@ -51,9 +64,11 @@ $ docker build ../../ -f Dockerfile -t sleepr_reservations
 # run image
 $ docker run sleepr_reservations
 
-#run services (reservations)
+# run services
 $ docker-compose up
 ```
+### Docker run services
+```$ docker-compose up```
 
 ## Authors
 
