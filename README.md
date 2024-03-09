@@ -18,6 +18,8 @@ To run this project, you will need to add the following environment variables to
 - PORT=3000
 - AUTH_PORT=3002
 - AUTH_HOST=auth
+- PAYMENTS_SERVICE_PORT=3003
+- PAYMENTS_SERVICE_HOST=payments
 ### Payments
 - PORT=3003
 - STRIPE_SECRET_KEY=sdasdasdasdas
