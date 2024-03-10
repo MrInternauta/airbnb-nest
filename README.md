@@ -23,6 +23,12 @@ To run this project, you will need to add the following environment variables to
 ### Payments
 - PORT=3003
 - STRIPE_SECRET_KEY=sdasdasdasdas
+### NOTIFICATION
+- PORT=3004
+- SMTP_USER
+- GOOGLE_OAUTH_CLIENT_ID
+- GOOGLE_OAUTH_CLIENT_SECRET
+- GOOGLE_OAUTH_REFRESH_TOKEN
 
 Note generate `STRIPE_SECRET_KEY` with [Stripe](https://dashboard.stripe.com/test/dashboard)
 ## Instalation
