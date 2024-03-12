@@ -15,6 +15,7 @@ steps:
     'us-east4-docker.pkg.dev/innate-temple-417000/reservations/production',
     ]
 # auth
+
   - name: 'gcr.io/cloud-builders/docker'
     args: [
     'build',
