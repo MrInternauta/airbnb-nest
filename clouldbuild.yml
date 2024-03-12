@@ -1,0 +1,61 @@
+steps:
+# reservations
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'build',
+    '-t',
+    'us-east4-docker.pkg.dev/innate-temple-417000/reservations/production',
+    '-f',
+    'apps/reservations/Dockerfile'.
+    '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'push',
+    'us-east4-docker.pkg.dev/innate-temple-417000/reservations/production',
+    ]
+# auth
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'build',
+    '-t',
+    'us-east4-docker.pkg.dev/innate-temple-417000/auth/production',
+    '-f',
+    'apps/auth/Dockerfile'.
+    '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'push',
+    'us-east4-docker.pkg.dev/innate-temple-417000/auth/production',
+    ]
+# notifications
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'build',
+    '-t',
+    'us-east4-docker.pkg.dev/innate-temple-417000/notifications/production',
+    '-f',
+    'apps/notifications/Dockerfile'.
+    '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'push',
+    'us-east4-docker.pkg.dev/innate-temple-417000/notifications/production',
+    ]
+# payments
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'build',
+    '-t',
+    'us-east4-docker.pkg.dev/innate-temple-417000/payments/production',
+    '-f',
+    'apps/payments/Dockerfile'.
+    '.'
+    ]
+  - name: 'gcr.io/cloud-builder/docker'
+    args: [
+    'push',
+    'us-east4-docker.pkg.dev/innate-temple-417000/payments/production',
+    ]

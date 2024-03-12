@@ -33,7 +33,8 @@ To run this project, you will need to add the following environment variables to
 Note generate `STRIPE_SECRET_KEY` with [Stripe](https://dashboard.stripe.com/test/dashboard)
 ## Instalation
 ```bash
-npm install
+# it will recursive install depencies
+npm install -r
 ```
 
 ## Running the app
