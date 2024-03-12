@@ -7,3 +7,4 @@ export * from './decorators';
 export * from './dto/user.dto';
 export * from './dto/card.dto';
 export * from './dto/create-charge.dto';
+export * from './models/users.schema';

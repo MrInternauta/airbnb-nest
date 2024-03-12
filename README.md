@@ -67,10 +67,11 @@ To run build, run the following command
 ```
 # build
 $ cd apps/reservations
-$ docker build ../../ -f Dockerfile -t sleepr_reservations
+# do same for each micro-service
+$docker build -t reservations -f ./Dockerfile ../../ 
 
-# run image
-$ docker run sleepr_reservations
+# do same for each micro-service
+$ docker run reservations
 
 # run services
 $ docker-compose up
@@ -78,6 +79,14 @@ $ docker-compose up
 ### Docker run services
 ```$ docker-compose up```
 
+### Tag image before upload to GCloud
+```
+❯ docker tag reservations us-east4-docker.pkg.dev/innate-temple-417000/reservations/production
+
+
+❯ docker image push us-east4-docker.pkg.dev/innate-temple-417000/reservations/production
+
+```
 ## Authors
 
 - [@FelipeRamirez](https://www.github.com/mrinternauta)
