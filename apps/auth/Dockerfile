@@ -11,10 +11,11 @@ COPY nest-cli.json nest-cli.json
 COPY apps/auth apps/auth
 COPY libs libs
 
-RUN npm  install
-RUN cd apps/auth && npm install
+RUN npm install -g pnpm
+RUN pnpm install
+RUN cd apps/auth && pnpm install
 
-RUN npm run build auth
+RUN pnpm run build auth
 
 EXPOSE 3000
 
@@ -28,8 +29,9 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+RUN npm install -g pnpm
 
-RUN npm install --prod
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 

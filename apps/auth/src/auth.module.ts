@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { DatabaseModule, LoggerModule } from '@app/common';
+import { DatabaseModule, HealthModule, LoggerModule } from '@app/common';
 import {
   UserSchemaDocument,
   UserSchema,
@@ -42,6 +42,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
     DatabaseModule.forFeature([
       { name: UserSchemaDocument.name, schema: UserSchema },
     ]),
+    HealthModule,
   ],
   controllers: [AuthController, UsersController],
   providers: [

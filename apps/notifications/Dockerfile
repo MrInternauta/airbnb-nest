@@ -11,10 +11,11 @@ COPY nest-cli.json nest-cli.json
 COPY apps/notifications apps/notifications
 COPY libs libs
 
-RUN npm  install
-RUN cd apps/notifications && npm install
+RUN npm install -g pnpm
+RUN pnpm  install
+RUN cd apps/notifications && pnpm install
 
-RUN npm run build notifications
+RUN pnpm run build notifications
 
 EXPOSE 3000
 
@@ -28,8 +29,9 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+RUN npm install -g pnpm
 
-RUN npm install --prod
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 

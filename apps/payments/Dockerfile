@@ -12,10 +12,11 @@ COPY nest-cli.json nest-cli.json
 COPY apps/payments apps/payments
 COPY libs libs
 
-RUN npm  install
-RUN cd apps/payments && npm install
+RUN npm install -g pnpm
+RUN pnpm  install
+RUN cd apps/payments && pnpm install
 
-RUN npm run build payments
+RUN pnpm run build payments
 
 EXPOSE 3000
 
@@ -29,8 +30,9 @@ WORKDIR /usr/src/app
 
 COPY package.json ./
 COPY package-lock.json ./
+RUN npm install -g pnpm
 
-RUN npm install --prod
+RUN pnpm install --prod
 
 COPY --from=development /usr/src/app/dist ./dist
 
