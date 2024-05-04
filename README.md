@@ -290,3 +290,16 @@ CMD ["node", "dist/apps/auth/main"]
 - kubectl edit secret google
 MS8vMDR3THRESXdXdTlHcUNnWUlBUkFBR0FRU053Ri1MOUlyLS1XR0lVa2RtUmdMSlJZTFE2N1Rk
 a0JNYkV4d1ZjVFhLWEJrUFNBTzhmZklsUjRNSmlSc1NiTXJpaTlRSzVHbnh1Zw==
+
+## Deploy to AWS
+- We will  use ES
+- CI/CD pipelines
+### Create repositories for each microservice
+using Amazon Elastic Container Registry
+![alt text](doc/repos.png)
+
+### Installl AWS Command line
+- Install <https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-install.html>
+- Type `aws configure`
+- Create crentials
+![alt text](doc/Screenshot%20from%202024-03-12%2017-40-56.png)
