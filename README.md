@@ -147,6 +147,8 @@ nest generate app <project_name>
 - Check kubernetes `kubectl version --client`
 - Get name spaces `kubectl get namespaces`
 
+### helm install --replace fails with "cannot re-use a name that is still in use"
+`workaround: helm upgrade --install`
 
 ### Install helm
 > https://helm.sh/docs/intro/install/
@@ -298,8 +300,50 @@ a0JNYkV4d1ZjVFhLWEJrUFNBTzhmZklsUjRNSmlSc1NiTXJpaTlRSzVHbnh1Zw==
 using Amazon Elastic Container Registry
 ![alt text](doc/repos.png)
 
-### Installl AWS Command line
+### Install AWS Command line
 - Install <https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-install.html>
 - Type `aws configure`
 - Create crentials
 ![alt text](doc/Screenshot%20from%202024-03-12%2017-40-56.png)
+
+
+### Create cluster with EKSCTL
+- Install [eksctl](https://eksctl.io/)
+- type `eksctl create cluster -f ./cluster.yaml`
+
+
+### scale to 5 nodes
+`eksctl scale nodegroup ng-1 -N 5 --cluster sleepr -M 5`
+
+### Use load balancer
+[aws-load-balancer-controlle](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/)
+
+``` bash
+> eksctl utils associate-iam-oidc-provider \
+    --region us-east-1 \
+    --cluster sleepr \
+    --approve
+
+> curl -o iam-policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.7.0/docs/install/iam_policy.json
+
+> aws iam create-policy \
+    --policy-name AWSLoadBalancerControllerIAMPolicy \
+    --policy-document file://iam-policy.json
+
+
+> eksctl create iamserviceaccount \
+--cluster=sleepr \
+--namespace=kube-system \
+--name=aws-load-balancer-controller \
+--attach-policy-arn=arn:aws:iam::725667370394:policy/AWSLoadBalancerControllerIAMPolicy \
+--override-existing-serviceaccounts \
+--region us-east-1 \
+--approve
+```
+
+#### Summary
+```bash
+> helm repo add eks https://aws.github.io/eks-charts
+
+> helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=sleepr --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+```
