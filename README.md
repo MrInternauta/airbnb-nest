@@ -23,6 +23,8 @@ To run this project, you will need to add the following environment variables to
 ### Payments
 - PORT=3003
 - STRIPE_SECRET_KEY=sdasdasdasdas
+- NOTIFICATION_SERVICE_HOST=
+- NOTIFICATION_SERVICE_PORT=
 ### NOTIFICATION
 - PORT=3004
 - SMTP_USER
@@ -78,6 +80,12 @@ $ docker run reservations
 # run services
 $ docker-compose up
 ```
+
+### run e2e
+```bash
+docker build -t e2e .          
+```
+
 ### Docker run services
 ```$ docker-compose up```
 

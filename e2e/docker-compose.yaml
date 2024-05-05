@@ -1,0 +1,35 @@
+services:
+  e2e:
+    build: 
+      dockerfile: Dockerfile
+    volumes:
+      - ./specs:/usr/src/app/specs
+    depends_on:
+      - reservations
+      - auth
+      - payments
+      - notifications
+  reservations:
+    image: 725667370394.dkr.ecr.us-east-1.amazonaws.com/reservations
+    ports:
+      - '3000:3000'
+    env_file:
+      - ../apps/reservations/.env
+  auth:
+    image: 725667370394.dkr.ecr.us-east-1.amazonaws.com/auth
+    ports:
+      - '3001:3001'
+    env_file:
+      - ../apps/auth/.env
+  payments:
+    image: 725667370394.dkr.ecr.us-east-1.amazonaws.com/payments
+    ports:
+      - '3003:3003'
+    env_file:
+      - ../apps/payments/.env
+  notifications:
+    image: 725667370394.dkr.ecr.us-east-1.amazonaws.com/notifications
+    ports:
+      - '3004:3004'
+    env_file:
+      - ../apps/notifications/.env
