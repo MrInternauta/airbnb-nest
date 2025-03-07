@@ -2,38 +2,54 @@
 
 Reservation REST API using Nest.js
 
-
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file for each app
 
 ### Auth
-- MONGODB_URI=mongodb+srv://wewewew:ww@cluster0.wewwew.mongodb.net #this is the Mongo URI to connect to the database
-- JWT_SECRET=mysecret12345
-- JWT_EXPIRATION=3600
-- HTTP_PORT=3001
-- TCP_PORT=3002
+
+```
+MONGODB_URI=mongodb+srv://user:pass@devred_airbnb_nest:27017/mongodb
+JWT_SECRET=mysecret12345
+JWT_EXPIRATION=3600
+HTTP_PORT=3001
+TCP_PORT=3002
+```
+
 ### Reservation
-- MONGODB_URI=mongodb+srv://wewewew:ww@cluster0.wewwew.mongodb.net #this is the Mongo URI to connect to the database
-- PORT=3000
-- AUTH_PORT=3002
-- AUTH_HOST=auth
-- PAYMENTS_SERVICE_PORT=3003
-- PAYMENTS_SERVICE_HOST=payments
+
+```
+MONGODB_URI=mongodb://user:pass@devred_airbnb_nest:27017/mongodb
+PORT=3000
+AUTH_PORT=3002
+AUTH_HOST=auth
+PAYMENTS_SERVICE_PORT=3003
+PAYMENTS_SERVICE_HOST=payments
+```
+
 ### Payments
-- PORT=3003
-- STRIPE_SECRET_KEY=sdasdasdasdas
-- NOTIFICATION_SERVICE_HOST=
-- NOTIFICATION_SERVICE_PORT=
+
+```
+PORT=3003
+STRIPE_SECRET_KEY=sdasdasdasdas
+NOTIFICATION_SERVICE_HOST=
+NOTIFICATION_SERVICE_PORT=
+```
+
 ### NOTIFICATION
-- PORT=3004
-- SMTP_USER
-- GOOGLE_OAUTH_CLIENT_ID
-- GOOGLE_OAUTH_CLIENT_SECRET
-- GOOGLE_OAUTH_REFRESH_TOKEN
+
+```
+PORT=3004
+SMTP_USER=
+GOOGLE_OAUTH_CLIENT_ID=
+GOOGLE_OAUTH_CLIENT_SECRET=
+GOOGLE_OAUTH_REFRESH_TOKEN=
+```
 
 Note generate `STRIPE_SECRET_KEY` with [Stripe](https://dashboard.stripe.com/test/dashboard)
+
 ## Instalation
+
 ```bash
 # it will recursive install depencies
 npm install -g pnpm
@@ -41,7 +57,9 @@ npm install -r
 ```
 
 ## Running the app
+
 To run the app, run the following command
+
 ```bash
 # development
 npm run start
@@ -54,7 +72,9 @@ $ npm run start:prod
 ```
 
 ## Test
+
 To run tests, run the following command
+
 ```
 # unit tests
 $ npm run test
@@ -67,12 +87,14 @@ $ npm run test:cov
 ```
 
 ## Docker
+
 To run build, run the following command
+
 ```
 # build
 $ cd apps/reservations
 # do same for each micro-service
-$docker build -t reservations -f ./Dockerfile ../../ 
+$docker build -t reservations -f ./Dockerfile ../../
 
 # do same for each micro-service
 $ docker run reservations
@@ -82,14 +104,17 @@ $ docker-compose up
 ```
 
 ### run e2e
+
 ```bash
-docker build -t e2e .          
+docker build -t e2e .
 ```
 
 ### Docker run services
-```$ docker-compose up```
+
+`$ docker-compose up`
 
 ### Tag image before upload to GCloud
+
 ```
 ❯ docker tag reservations us-east4-docker.pkg.dev/innate-temple-417000/reservations/production
 
@@ -100,28 +125,29 @@ docker build -t e2e .
 
 ❯ docker push us-east4-docker.pkg.dev/innate-temple-417000/auth/production
 ```
+
 ## Authors
 
 - [@FelipeRamirez](https://www.github.com/mrinternauta)
 
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
-
 
 ## Developer Notes
 
 ### Nest CLI instalation
 
 to install nest globally, run the following command
-``` bash
-npm i -g @nestjs/cli 
+
+```bash
+npm i -g @nestjs/cli
 ```
 
 ### Generate new project
 
 to create a new project with nest, run the following command
+
 ```bash
 nest new <project_name>
 ```
@@ -129,42 +155,48 @@ nest new <project_name>
 ### Generate new library
 
 to create a new library with nest, run the following command
+
 ```bash
 nest generate library <library_name>
 ```
 
-
 ### Generate new module for an specific project
 
 run the following command
+
 ```bash
 nest generate module <module_name> -p <library_name>
 ```
 
-### Generate new micro-service 
+### Generate new micro-service
 
 run the following command
 this will generate `apps` folder
+
 ```bash
 nest generate app <project_name>
 ```
 
-
 ## Helm
+
 - Activate Kubernetes
 - Check kubernetes `kubectl version --client`
 - Get name spaces `kubectl get namespaces`
 
 ### helm install --replace fails with "cannot re-use a name that is still in use"
+
 `workaround: helm upgrade --install`
 
 ### Install helm
+
 > https://helm.sh/docs/intro/install/
 
 ```bash
 ❯ kubectl create deployment reservations --image=us-east4-docker.pkg.dev/innate-temple-417000/reservations/production --dry-run=client -o yaml > deployment.yaml
 ```
+
 ### Create helm project
+
 - Create and navigate to `/k8s`
 - Create project `helm create sleepr`
 - Remove `templates` folder
@@ -172,63 +204,75 @@ nest generate app <project_name>
 - Move folder to `templates/reservations/deployment.yaml`
 - Navigate to `k8s/sleepr` and install `❯ helm install sleepr .`
 - Create secret to host the key to pull images from kubernetes
-- before this, create API & service permission (service to allow read regsitry)   ```
-❯ kubectl create secret docker-registry gcr-json-key --docker-server=us-east4-docker.pkg.dev --docker-username=_json_key --docker-password="$(cat ./sleeper-416802-ce720ed851ea.json)" --docker-email=sleeprclone.01@gmail.com
-``` 
+- before this, create API & service permission (service to allow read regsitry) ```
+  ❯ kubectl create secret docker-registry gcr-json-key --docker-server=us-east4-docker.pkg.dev --docker-username=\_json_key --docker-password="$(cat ./sleeper-416802-ce720ed851ea.json)" --docker-email=sleeprclone.01@gmail.com
+
+```
 ❯ kubectl patch serviceaccount default -p '{"imagePullSecrets": [{"name": "gcr-json-key"}]}'
 ```
--  Restart deployment to see if the pull error is resolved`❯ kubectl rollout restart deployment reservations`
+
+- Restart deployment to see if the pull error is resolved`❯ kubectl rollout restart deployment reservations`
 
 - check kubernetes logs `kubectl logs reservations-76f7bc44c6-rlmbl`
 
 - Just in case no need delete something
 
-`kubectl get po`, and then  `kubectl delete pod reservations-b6b89c7dc-q6sdx`
+`kubectl get po`, and then `kubectl delete pod reservations-b6b89c7dc-q6sdx`
 
 - Update k8s/sleepr project (in case you changed something) `helm upgrade  sleepr  .`
 
 ### Create KubeSecrets
+
 #### create Secret for each service (database)
+
 ```bash
 ╰─ kubectl create secret generic mongodb --from-literal=connectionString=mongodb+srv://user:ss@cluster0.sssxxx.mongodb.net
 ```
+
 #### notification
+
 ```bash
 
 ╰─ kubectl create secret generic google --from-literal=clientSecret=xxxxx-7o-xxx --from-literal=refreshTokenKey=1//xxxx-xxx-xx
 ```
+
 ### Generate services
+
 go to `/k8s/sleepr/templates/payments` or for each service
+
 - payments `❯ kubectl create service clusterip payments --tcp=3001 --dry-run=client -o yaml > service.yaml`
 - notifications `kubectl create service clusterip notifications --tcp=3000 --dry-run=client -o yaml > service.yaml`
 - auth `kubectl create service clusterip auth --tcp=3002,3003 --dry-run=client -o yaml > service.yaml`
 - reservations `❯ kubectl create service nodeport reservations --tcp=3004 --dry-run=client -o yaml > service.yaml`
+
 ##### update project
+
 ```
 $ cd k8s/sleepr
 ╰─ helm upgrade  sleepr  .                                                                                                       ─╯
 ```
+
 ##### How to see services
+
 `kubectl get svc`
 
-
-
 #### payments
+
 ```bash
 ╰─ kubectl create secret generic stripe --from-literal=apiKey=xxxxxxxxxxxxxxxxxxxxx
 ```
 
 #### auth
+
 ```bash
 ╰─ kubectl create secret generic jwt --from-literal=jwtSecret=mysecret12345                                                     ─╯
 ```
-
 
 ### How to fix "Error: Cannot find module 'semver'" for auth service?
 
 I resolved that issue, switching to pnpm and pushing the images again
 
-- Add before the first npm install for each docker image, example, 
+- Add before the first npm install for each docker image, example,
 
 - Second, replace all the coincidences of  npm to pnpm (including docker-compose)
 
@@ -236,10 +280,11 @@ I resolved that issue, switching to pnpm and pushing the images again
 
 - Then rebuild each image and tag it
 
-$ docker build -t auth -f ./Dockerfile ../../ 
+$ docker build -t auth -f ./Dockerfile ../../
 $ docker tag reservations us-xxx-docker.pkg.dev/innate-temple-xxx/auth/production
 
 - Finally push it
+
 ```
 ❯ docker image push us-xxx-docker.pkg.dev/innate-temple-xxx/auth/production
 
@@ -259,7 +304,6 @@ COPY package-lock.json ./
 COPY tsconfig.json tsconfig.json
 COPY nest-cli.json nest-cli.json
 
-
 COPY apps/auth apps/auth
 COPY libs libs
 
@@ -270,7 +314,6 @@ RUN cd apps/auth && pnpm install
 RUN pnpm run build auth
 
 EXPOSE 3000
-
 
 #prod
 FROM node:alpine as production
@@ -290,6 +333,7 @@ COPY --from=development /usr/src/app/dist ./dist
 CMD ["node", "dist/apps/auth/main"]
 
 ### Notifications error (Edit secret): oken has been expired or revoked. {"context":"RpcExceptionsHandler"}
+
 - https://developers.google.com/oauthplayground/
 - write your own keys from .env notifications
 - Gmail API v1
@@ -298,35 +342,40 @@ CMD ["node", "dist/apps/auth/main"]
 - export EDITOR='code --wait'
 - mysecret
 - kubectl edit secret google
-MS8vMDR3THRESXdXdTlHcUNnWUlBUkFBR0FRU053Ri1MOUlyLS1XR0lVa2RtUmdMSlJZTFE2N1Rk
-a0JNYkV4d1ZjVFhLWEJrUFNBTzhmZklsUjRNSmlSc1NiTXJpaTlRSzVHbnh1Zw==
+  MS8vMDR3THRESXdXdTlHcUNnWUlBUkFBR0FRU053Ri1MOUlyLS1XR0lVa2RtUmdMSlJZTFE2N1Rk
+  a0JNYkV4d1ZjVFhLWEJrUFNBTzhmZklsUjRNSmlSc1NiTXJpaTlRSzVHbnh1Zw==
 
 ## Deploy to AWS
-- We will  use ES
+
+- We will use ES
 - CI/CD pipelines
+
 ### Create repositories for each microservice
+
 using Amazon Elastic Container Registry
 ![alt text](doc/repos.png)
 
 ### Install AWS Command line
+
 - Install <https://docs.aws.amazon.com/es_es/cli/latest/userguide/getting-started-install.html>
 - Type `aws configure`
 - Create crentials
-![alt text](doc/Screenshot%20from%202024-03-12%2017-40-56.png)
-
+  ![alt text](doc/Screenshot%20from%202024-03-12%2017-40-56.png)
 
 ### Create cluster with EKSCTL
+
 - Install [eksctl](https://eksctl.io/)
 - type `eksctl create cluster -f ./cluster.yaml`
 
-
 ### scale to 5 nodes
+
 `eksctl scale nodegroup ng-1 -N 5 --cluster sleepr -M 5`
 
 ### Use load balancer
+
 [aws-load-balancer-controlle](https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.7/)
 
-``` bash
+```bash
 > eksctl utils associate-iam-oidc-provider \
     --region us-east-1 \
     --cluster sleepr \
@@ -350,6 +399,7 @@ using Amazon Elastic Container Registry
 ```
 
 #### Summary
+
 ```bash
 > helm repo add eks https://aws.github.io/eks-charts
 

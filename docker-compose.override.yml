@@ -1,0 +1,21 @@
+services:
+  reservations:
+      networks:
+      - devred_airbnb_nest
+  auth:
+      networks:
+      - devred_airbnb_nest
+  payments:
+    networks:
+    - devred_airbnb_nest
+  notifications:
+    networks:
+    - devred_airbnb_nest
+  mongodb_airbnb_nest:
+    networks:
+    - devred_airbnb_nest
+networks:
+  # Use a custom network
+  devred_airbnb_nest:
+    name: 'devred_airbnb_nest'
+    driver: bridge

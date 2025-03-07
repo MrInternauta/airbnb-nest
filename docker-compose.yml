@@ -1,5 +1,8 @@
 services:
   reservations:
+    depends_on:
+      - mongodb_airbnb_nest
+      - auth
     build: 
       context: .
       dockerfile: ./apps/reservations/Dockerfile
@@ -13,6 +16,8 @@ services:
     env_file:
       - ./apps/reservations/.env
   auth:
+    depends_on:
+    - mongodb_airbnb_nest
     build: 
       context: .
       dockerfile: ./apps/auth/Dockerfile
@@ -25,6 +30,8 @@ services:
     env_file:
       - ./apps/auth/.env
   payments:
+    depends_on:
+      - notifications
     build: 
       context: .
       dockerfile: ./apps/payments/Dockerfile
@@ -44,3 +51,15 @@ services:
       - .:/usr/src/app
     env_file:
       - ./apps/notifications/.env
+  mongodb_airbnb_nest:
+    container_name: mongodb_airbnb_nest # this is the DNS name => so you need to connect to "mongodb://mongodb:27017" from within your application
+    restart: always
+    env_file:
+      - .env
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - data-volume:/data/db # mount the volume, so the data is not lost
+volumes:
+  data-volume: # in this volume all the data will be saved when you stop/ delete the MongoDB container
